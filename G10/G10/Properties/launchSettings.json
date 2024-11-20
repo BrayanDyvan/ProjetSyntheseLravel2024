@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "G10 (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "G10 (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+﻿<Window
+    x:Class="G10.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:G10"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Vertical" >
+        <TextBlock x:Name="tbl_texte" Margin="20" FontSize="25"/>
+
+        <TextBox x:Name="tbx_texte" Margin="20"/>
+        
+        <Button x:Name="myButton" Click="myButton_Click">Click Me</Button>
+        <Button x:Name="btn_ouvrir" Click="btn_ouvrir_Click">Lire</Button>
+        <Button x:Name="btn_Ecrire" Click="btn_Ecrire_Click">Écrire</Button>
+        <Button x:Name="btn_Ecrire_CSV" Click="btn_Ecrire_CSV_Click">Écrire du CSV</Button>
+        <Button x:Name="btn_Lire_CSV" Click="btn_Lire_CSV_Click">Écrire du CSV</Button>
+        
+        <ListView x:Name="lv_liste"/>
+    </StackPanel>
+</Window>
