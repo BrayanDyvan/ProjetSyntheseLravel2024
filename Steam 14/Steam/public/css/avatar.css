@@ -1,0 +1,19 @@
+.avatar{
+    position: relative;
+}
+.profil{
+    position: absolute;
+
+    right: 10px;
+    top: 50px;
+    z-index: 2;
+}
+.boite1{
+
+    z-index: 1;
+
+}
+li{
+    list-style: none;
+    
+}
