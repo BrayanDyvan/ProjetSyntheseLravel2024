@@ -1,7 +1,7 @@
 @extends ('layouts.form')
 
 @section ('titre', 'steam | index')
-@section ('page', 'FORMULAIRE D\'ENREGISTREMENT DU JEU')
+@section ('page', 'FORMULAIRE DE MODIFICATION D\'USAGER')
 
 @section ('contenue')
 
@@ -24,34 +24,19 @@
         @endforeach
 
     @endif
+    <br>
 
-    <form method="post" action="{{ route('jeux.store') }}" enctype="multipart/form-data">
+    <form method="post" action="{{ route('usager.update', [$usager]) }}" enctype="multipart/form-data">
         @csrf
-
-
-        <div class="form-group d-none">
-            <label for="dateDepot" class="text-white">Date de dépot du jeu</label>
-            <input type="date" class="form-control" id="dateDepot" placeholder="2024-11-11" name="dateDepot"
-                value="{{$date}}">
-
-            @if (isset($errors) && $errors->any())
-
-                @foreach ($errors->get('dateDepot') as $error)
-                    <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
-                @endforeach
-
-            @endif
-        </div>
-
-
+        @method('PATCH')
 
         <div class="row">
 
             <div class="col-lg-6 col-md-6 trans">
                 <div class="form-group">
-                    <label for="nomJeux" class="text-white">Nom du jeu</label>
-                    <input type="text" class="form-control w-100" id="nomJeu" placeholder="Nom du jeu" name="nom"
-                        value="{{old('nom')}}">
+                    <label for="nomUsager" class="text-white">Nom de l'usager</label>
+                    <input type="text" class="form-control w-100" id="nomUsager" placeholder="Nom de l'usager"
+                        name="nom" value="{{old('nom', $usager->nom)}}">
 
                     @if (isset($errors) && $errors->any())
 
@@ -61,57 +46,39 @@
 
                     @endif
                 </div>
-
                 <div class="form-group">
-                    <label for="video" class="text-white">Lien pour une video du jeu</label>
-                    <input type="text" class="form-control" id="video" placeholder="http\\........" name="video"
-                        value="{{old('video')}}">
+                    <label for="email" class="text-white">email de l'usager <span class="icon_mail"></span></label>
+                    <input type="email" placeholder=" adresse email" name="email" class="form-control"
+                        value="{{old('email', $usager->email)}}">
+
                     @if (isset($errors) && $errors->any())
 
-                        @foreach ($errors->get('video') as $error)
+                        @foreach ($errors->get('email') as $error)
                             <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
                         @endforeach
 
                     @endif
                 </div>
 
-                <div class="form-group">
-                    <label for="image" class="text-white">Lien pour la pochette du jeu</label>
-                    <input type="file" class="form-control" id="image"  name="image"
-                        value="{{old('image')}}" />
-                    @if (isset($errors) && $errors->any())
 
-                        @foreach ($errors->get('image') as $error)
-                            <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
-                        @endforeach
-
-                    @endif
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
 
                 <div class="form-group">
-                    <label for="nbVersion" class="text-white">nombre de version du jeu</label>
-                    <input type="number" class="form-control" id="nbVersion" placeholder="1" name="nbVersion"
-                        value="{{old('nbVersion')}}" min="0">
+                    <label for="password" class="text-white">mot de passe de l'usager <span
+                            class="icon_lock"></span></label>
+                    <input type="password" class="form-control" placeholder="Password" name="password"
+                        value="{{old('password', $usager->password)}}">
 
                     @if (isset($errors) && $errors->any())
 
-                        @foreach ($errors->get('nbVersion') as $error)
+                        @foreach ($errors->get('password') as $error)
                             <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
                         @endforeach
 
                     @endif
                 </div>
 
-                <div class="form-group d-none">
-                    <label for="nbTelechargement" class="text-white">nombre de telechargement du jeu</label>
-                    <input type="text" class="form-control" id="nbTelechargement" placeholder="1"
-                        name="nbTelechargement" value="0">
 
-                </div>
-
-                <p class="text-white ">Qui dépose le jeu ?</p>
+                <p class="text-white ">Qui enregistre l'usager ?</p>
 
                 <div class="form-group">
 
@@ -121,7 +88,7 @@
 
                         @foreach($professeurs as $professeur)
 
-                            <option value="{{ $professeur->id }}" {{ $professeur->id == old('professeur_id') ? 'selected' : null }}>
+                            <option value="{{ $professeur->id }}" {{ $professeur->id == old('professeur_id', $usager->professeur_id) ? 'selected' : null }}>
                                 {{ $professeur->nom }} {{ $professeur->prenom }}
                             </option>
 
@@ -137,8 +104,81 @@
 
                     @endif
                 </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="form-group">
+                    <label for="prenomUsager" class="text-white">prenom de l'usager</label>
+                    <input type="text" class="form-control w-100" id="prenomUsager" placeholder="prenom de l'usager"
+                        name="prenom" value="{{old('prenom', $usager->prenom)}}">
 
-                <p class="text-white ">Quelle équipe a concu ce jeu ?</p>
+                    @if (isset($errors) && $errors->any())
+
+                        @foreach ($errors->get('prenom') as $error)
+                            <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
+                        @endforeach
+
+                    @endif
+                </div>
+                <div class="form-group">
+                    <label for="matricule" class="text-white">matricule de l'usager</label>
+                    <input type="text" class="form-control" id="matricule" placeholder="2309567" name="matricule"
+                        value="{{old('matricule', $usager->matricule)}}">
+                    @if (isset($errors) && $errors->any())
+
+                        @foreach ($errors->get('matricule') as $error)
+                            <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
+                        @endforeach
+
+                    @endif
+                </div>
+
+
+                <div class="form-group">
+                    <label for="avatar" class="text-white">Avatar de l'usager</label>
+                    <input type="file" class="form-control" id="avatar" name="avatar"
+                        value="{{old('avatar', 'img/usagers/'.$usager->avatar)}}"  />
+                    @if (isset($errors) && $errors->any())
+
+                        @foreach ($errors->get('avatar') as $error)
+                            <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
+                        @endforeach
+
+                    @endif
+                </div>
+
+                <p class="text-white ">Quel est le role de l'usager ?</p>
+
+                <div class="form-group">
+
+                    <select class="form-control w-100" id="role" name="role">
+
+                        <option value=""> Veuillez choisir...</option>
+
+
+                            <option value="etudiant" {{ 'etudiant' == old('role', $usager->role) ? 'selected' : null }}>
+                            etudiant
+                            </option>
+                            <option value="etudiantInfo" {{ "etudiantInfo" == old('role', $usager->role) ? 'selected' : null }}>
+                            etudiantInfo
+                            </option>
+                            <option value="professeur" {{ "professeur" == old('role', $usager->role) ? 'selected' : null }}>
+                            professeur
+                            </option>
+
+                   
+
+                    </select><br><br><br>
+
+                    @if (isset($errors) && $errors->any())
+
+                        @foreach ($errors->get('role') as $error)
+                            <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
+                        @endforeach
+
+                    @endif
+                </div>
+
+                <p class="text-white ">De quelle équipe cet usager fait-il parti ?</p>
 
                 <div class="form-group">
 
@@ -148,7 +188,7 @@
 
                         @foreach($equipes as $equipe)
 
-                            <option value="{{ $equipe->id }}" {{ $equipe->id == old('equipe_id') ? 'selected' : null }}>
+                            <option value="{{ $equipe->id }}" {{ $equipe->id == old('equipe_id', $usager->equipe_id) ? 'selected' : null }}>
                                 {{ $equipe->nom }}
                             </option>
 
@@ -168,18 +208,7 @@
 
         </div>
 
-        <div class="form-group">
-            <p id="resumer" class="text-white">Description du jeu</p>
-            <textarea class="form-control" placeholder="Resumer du jeu" name="Resumer" rows="10" cols="50"
-                value="{{old('Resumer')}}">{{old('Resumer')}}</textarea>
-            @if (isset($errors) && $errors->any())
 
-                @foreach ($errors->get('Resumer') as $error)
-                    <p class="text-danger"><span class="text-danger">*</span>{{$error}}</p>
-                @endforeach
-
-            @endif
-        </div>
 
         <div class="row d-flex flex-row justify-content-between mb-5">
 
@@ -196,7 +225,6 @@
 
 </div>
 </div>
-
 
 <div tabindex="-1" id="modalEquipe" class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
@@ -255,7 +283,6 @@
 <script type="module" src="{{ asset('js/equipe.js') }}"></script>
 
 <script src="{{ asset('js/modal.js') }}"></script>
-
 
 
 @endsection

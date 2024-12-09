@@ -72,6 +72,8 @@ class JeuxControlleur extends Controller
         $dateMonth = date("m", time());
         $dateYear = date("Y", time());
         $dateDay = date("d", time());
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
         return view('jeux.categories', compact(
             'jeux',
             'images',
@@ -82,7 +84,10 @@ class JeuxControlleur extends Controller
             'dateDay',
             'dateMonth',
             'usagers',
-            'jeuxDate'
+            'jeuxDate',
+            'date',
+            'heure'
+            
         ));
     }
     public function categorie(jeu $jeu)
@@ -99,7 +104,8 @@ class JeuxControlleur extends Controller
         $dateMonth = date("m", time());
         $dateYear = date("Y", time());
         $dateDay = date("d", time());
-
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
         return view('jeux.categorie', compact(
             'jeux',
             'images',
@@ -111,7 +117,9 @@ class JeuxControlleur extends Controller
             'dateMonth',
             'usagers',
             'jeuxDate',
-            'jeu'
+            'jeu',
+            'date',
+            'heure'
         ));
     }
     public function modifierCategorie(Jeu $jeu)
@@ -128,6 +136,8 @@ class JeuxControlleur extends Controller
         $dateMonth = date("m", time());
         $dateYear = date("Y", time());
         $dateDay = date("d", time());
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
         return view('jeux.modifierCategorie', compact(
             'jeux',
             'images',
@@ -139,7 +149,9 @@ class JeuxControlleur extends Controller
             'dateMonth',
             'usagers',
             'jeuxDate',
-            'jeu'
+            'jeu',
+            'date',
+            'heure'
         ));
     }
     public function modifierVersion(Jeu $jeu)
@@ -156,6 +168,8 @@ class JeuxControlleur extends Controller
         $dateMonth = date("m", time());
         $dateYear = date("Y", time());
         $dateDay = date("d", time());
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
         return view('jeux.modifierVersion', compact(
             'jeux',
             'images',
@@ -167,7 +181,9 @@ class JeuxControlleur extends Controller
             'dateMonth',
             'usagers',
             'jeuxDate',
-            'jeu'
+            'jeu',
+            'date',
+            'heure'
         ));
     }
     public function modifierImage(Jeu $jeu)
@@ -184,6 +200,8 @@ class JeuxControlleur extends Controller
         $dateMonth = date("m", time());
         $dateYear = date("Y", time());
         $dateDay = date("d", time());
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
         return view('jeux.modifierImage', compact(
             'jeux',
             'images',
@@ -195,7 +213,9 @@ class JeuxControlleur extends Controller
             'dateMonth',
             'usagers',
             'jeuxDate',
-            'jeu'
+            'jeu',
+            'date',
+            'heure'
         ));
     }
     public function version()
@@ -212,6 +232,8 @@ class JeuxControlleur extends Controller
         $dateYear = date("Y", time());
         $date = date("Y-m-d", time());
         $dateDay = date("d", time());
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
         return view('jeux.version', compact(
             'jeux',
             'images',
@@ -222,7 +244,9 @@ class JeuxControlleur extends Controller
             'dateDay',
             'dateMonth',
             'usagers',
-            'jeuxDate'
+            'jeuxDate',
+            'date',
+            'heure'
         ));
     }
     public function image()
@@ -238,6 +262,8 @@ class JeuxControlleur extends Controller
         $dateMonth = date("m", time());
         $dateYear = date("Y", time());
         $dateDay = date("d", time());
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
         return view('jeux.image', compact(
             'jeux',
             'images',
@@ -248,7 +274,9 @@ class JeuxControlleur extends Controller
             'dateDay',
             'dateMonth',
             'usagers',
-            'jeuxDate'
+            'jeuxDate',
+            'date',
+            'heure'
         ));
     }
 
@@ -257,54 +285,83 @@ class JeuxControlleur extends Controller
     {
         //select pour aller chercher tous les jeux
         //jeux= allGames();
-        return view('jeux.anime-details');
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.anime-details',compact(
+        'date',
+        'heure'));
     }
 
     public function show(Jeu $jeu)
     {
         //select pour aller chercher tous les jeux
         //$jeux=Jeu::All();
-
-        return view('jeux.anime-detail', compact('jeu'));
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.anime-detail', compact('jeu',
+        'date',
+        'heure'));
     }
     public function watching()
     {
         //select pour aller chercher tous les jeux
         //jeux= allGames();
-
-        return view('jeux.anime-watching');
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.anime-watching',compact(
+        'date',
+        'heure'));
     }
     public function watchingDetails(Jeu $jeu)
     {
         //select pour aller chercher tous les jeux
         //jeux= allGames();
-
-        return view('jeux.anime-watching', compact('jeu'));
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.anime-watching', compact('jeu',
+        'date',
+        'heure'));
     }
     public function blogDetails()
     {
         //select pour aller chercher tous les jeux
         //jeux= allGames();
-        return view('jeux.blog-details');
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.blog-details',compact(
+        'date',
+        'heure'));
     }
     public function blog()
     {
         //select pour aller chercher tous les jeux
         //jeux= allGames();
-        return view('jeux.blog');
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.blog',compact(
+        'date',
+        'heure'));
     }
 
     public function sign()
     {
         //select pour aller chercher tous les jeux
         //jeux= allGames();
-        return view('jeux.signup');
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.signup',compact(
+        'date',
+        'heure'));
     }
     public function contact()
     {
         //select pour aller chercher tous les jeux
         //jeux= allGames();
-        return view('jeux.contact');
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+        return view('jeux.contact',compact(
+        'date',
+        'heure'));
     }
     /**
      * Show the form for creating a new resource.
@@ -318,8 +375,9 @@ class JeuxControlleur extends Controller
         $versions = version::all();
         $equipes = equipe::all();
         $images = version::all();
+        $heure=date("h:m:s",time());
         $date = date("Y-m-d", time());
-        return view('jeux.create', compact('professeurs', 'jeux', 'categories', 'versions', 'equipes', 'images', 'date'));
+        return view('jeux.create', compact('professeurs', 'jeux', 'categories', 'versions', 'equipes', 'images', 'date','heure'));
     }
     public function modifier(Jeu $jeu)
     {
@@ -330,8 +388,9 @@ class JeuxControlleur extends Controller
         $versions = version::all();
         $equipes = equipe::all();
         $images = version::all();
+        $heure=date("h:m:s",time());
         $date = date("Y-m-d", time());
-        return view('jeux.modifier', compact('professeurs', 'jeux', 'categories', 'versions', 'equipes', 'images', 'date', 'jeu'));
+        return view('jeux.modifier', compact('professeurs', 'jeux', 'categories', 'versions', 'equipes', 'images', 'date', 'jeu','heure'));
     }
 
     /**

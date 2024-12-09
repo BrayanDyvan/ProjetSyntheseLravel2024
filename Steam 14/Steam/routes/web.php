@@ -101,15 +101,19 @@ Route::get('/jeux/categories', [JeuxControlleur::class,'categories']
 )->middleware(RoleMiddleware::class.':professeur,etudiant,etudiantInfo');
 
 
-Route::get('/jeu/{jeu}/Modification',[JeuxControlleur::class,'modifier'])->name('jeux.edit')->middleware(RoleMiddleware::class.':professeur');
+Route::get('/jeu/{jeu}/Modification',[JeuxControlleur::class,'modifier'])->name('jeux.edit')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
 
-Route::patch('/jeu/{jeu}/Modifié',[JeuxControlleur::class,'update'])->name('jeux.update')->middleware(RoleMiddleware::class.':professeur');
+Route::get('/jeu/usager/{usager}/Modification',[UsagerController::class,'edit'])->name('usager.edit')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
 
-Route::get('/jeu/{jeu}/ModifierCategorie',[JeuxControlleur::class,'modifierCategorie'])->name('jeux.modifierCategorie')->middleware(RoleMiddleware::class.':professeur');
+Route::patch('/jeu/{jeu}/Modifié',[JeuxControlleur::class,'update'])->name('jeux.update')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
 
-Route::get('/jeu/{jeu}/ModifierVersion',[JeuxControlleur::class,'modifierVersion'])->name('jeux.modifierVersion')->middleware(RoleMiddleware::class.':professeur');
+Route::patch('/jeu/usager/{usager}/Modifié',[UsagerController::class,'update'])->name('usager.update')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
 
-Route::get('/jeu/{jeu}/ModifierImage',[JeuxControlleur::class,'modifierImage'])->name('jeux.modifierImage')->middleware(RoleMiddleware::class.':professeur');
+Route::get('/jeu/{jeu}/ModifierCategorie',[JeuxControlleur::class,'modifierCategorie'])->name('jeux.modifierCategorie')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
+
+Route::get('/jeu/{jeu}/ModifierVersion',[JeuxControlleur::class,'modifierVersion'])->name('jeux.modifierVersion')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
+
+Route::get('/jeu/{jeu}/ModifierImage',[JeuxControlleur::class,'modifierImage'])->name('jeux.modifierImage')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
 
 
 
@@ -119,5 +123,9 @@ Route::get('/jeu/{jeu}/', [JeuxControlleur::class,'show']
 
 Route::delete('/jeu/{id}/', [JeuxControlleur::class,'destroy']
 
-)->name('jeux.destroy')->middleware(RoleMiddleware::class.':professeur');
+)->name('jeux.destroy')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
+
+Route::delete('/jeu/usager/{id}/', [UsagerController::class,'destroy']
+
+)->name('usager.destroy')->middleware(RoleMiddleware::class.':professeur,etudiantInfo');
 
