@@ -46,8 +46,12 @@ class UsagerController extends Controller
         $versions = version::all();
         $equipes = equipe::all();
         $images = version::all();
+        $heure=date("h:m:s",time());
         $date = date("Y-m-d", time());
-        return view('jeux.createUsager', compact('professeurs', 'jeux', 'categories', 'versions', 'equipes', 'images', 'date'));
+        return view('jeux.createUsager', compact('professeurs', 'jeux', 'categories', 'versions',
+         'equipes', 'images', 
+         'date',
+         'heure'));
     }
 
     /**
@@ -87,6 +91,23 @@ class UsagerController extends Controller
     /**
      * Display the specified resource.
      */
+    public function edit(usager $usager){
+        $professeurs = professeur::all();
+        $jeux = Jeu::all();
+        $categories = categorie::all();
+        $versions = version::all();
+        $equipes = equipe::all();
+        $images = version::all();
+        $heure=date("h:m:s",time());
+        $date = date("Y-m-d", time());
+ 
+
+     
+        return view('jeux.ModifierUsager',compact('professeurs', 'jeux', 'categories', 'versions',
+         'equipes', 'images', 'usager',
+        'date',
+        'heure'));
+    }
     public function show(string $id)
     {
         //
@@ -130,24 +151,77 @@ class UsagerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
+   
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UsagerRequest $request, usager $usager)
     {
         //
+        Log::debug("debug");
+        try {
+           
+            $usager->nom = $request->nom;
+            $usager->prenom = $request->prenom;
+            $usager->email = $request->email;
+            $usager->matricule = $request->matricule;
+            $usager->password = Hash::make($request->password);
+            $usager->equipe_id = $request->equipe_id;
+            $usager->professeur_id = $request->professeur_id;
+            $usager->role=$request->role;
+        
+            $uploadedFile = $request->file('avatar');
+            $nomFichierUnique = str_replace('', '_', $usager->matricule) . '-' . uniqid() . '.' . $uploadedFile->extension();
+            
+            try {
+                $request->avatar->move(public_path('img/usagers'), $nomFichierUnique);
+             dd($nomFichierUnique);
+            } catch (\Symfony\Component\HttpFoundation\File\Exception\FileException $e) {
+                Log::error("Erreurlorsdutéléversementdufichier.", [$e]);
+            }
+
+            $usager->avatar=$nomFichierUnique;
+           
+            $usager->save();
+          //  dd($usager);
+            // Message de succès
+           
+            return redirect()->route('usager.edit', [$usager])->with('success', 'L\'usager a été modifié avec succès.');
+        } catch (\Throwable $e) {
+            
+            Log::debug($e);
+           
+            return redirect()->route('usager.edit', [$usager])->withErrors(['Une erreur s\'est produite lors de la modification de l\'usager,
+             veuillez bien entrer les informations requises']);
+        }
+
+
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+
+        try {
+            $usager = usager::findOrFail($id);
+
+            $usager->jeux()->detach();
+           
+            
+            $usager->delete();
+            return redirect()->route('logout')->with('message', "Suppression de " . $usager->nom . " réussi!");
+        } catch (\Throwable $e) {
+            //Gérerl'erreur
+            Log::debug($e);
+            return redirect()->route('jeux.index')->withErrors(["la suppression de " . $usager->nom . "  n'a pas fonctionné"]);
+        }
+        return redirect()->route('login');
+
+
+
+
     }
 }

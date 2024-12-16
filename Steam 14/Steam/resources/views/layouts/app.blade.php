@@ -33,7 +33,24 @@
         <div class="loader"></div>
     </div>
     <header class="header">
+    @if (session('success'))
+            <div class="container alert alert-success ">
+
+                {{session('success')}}
+
+
+            </div>
+        @endif
+        @if (isset($errors) && $errors->any())
+            @foreach ($errors->all() as $error)
+                <div class="container alert alert-danger ">
+                    {{$error}}
+                </div>
+            @endforeach
+
+        @endif
         <div class="container-fluid d-flex flex-row">
+       
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2">
@@ -140,9 +157,18 @@
                                 
                             <li style="border-top: 1px solid white;font-size:12px" class="text-dark px-2">Derniere connexion le </li>
                             <li class="mb-1 px-2 text-dark" style="font-size:13px">{{$date}} à {{$heure}}</li>
-                            <li class="mb-1 px-2 text-dark"><a href="#" style="color:green;"
-                                    title="Modifier les informations du compte">Modification</a> ou <a href="#"
-                                    style="color:red;" title="Supprimer le compte">Suppression du compte</a></li>
+                            <li class="mb-1 px-2 text-dark">
+                            @if(Auth::check() && in_array(Auth::user()->role, ['professeur','etudiantInfo']))
+                                    <a href="{{route('usager.edit',Auth::user())}}" style="color:green;"
+                                                title="Modifier les informations du compte">Modification</a> ou
+                                  
+                                      <a type="button" class="btn me-3 text-danger" title="Supprimer les informations du compte" data-bs-toggle="modal" data-bs-target="#exampleModal{{Auth::user()->id}}" >
+                                                Suppression </a>du compte
+     
+                              @endif
+         
+                        </li>
+                        <li class="mb-1 px-2 text-dark"><u> <a href="#" class="text-info">Afficher le compte</a> </u></li>
                                    
                             <li class=" p-lg-3 " style="background-color: rgb(20, 20, 79);"><a href="{{route('login')}}" style="color:white;font-size:13px;" title="connexion"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i> Se connecter avec un autre compte </a> </li>
                             </ul>
@@ -151,13 +177,35 @@
 
                     </p>
                 </div>
+                <div class="modal fade " id="exampleModal{{Auth::user()->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                         <div class="modal-dialog modal-dialog-centered">
+                             <div class="modal-content">
+                                 <div class="modal-header">
+                                     <h2 class="modal-title fs-5 text-center" id="exampleModalLabel"><i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i>  ATTENTION</h2>
+                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                 </div>
+                                 <form method="POST" action="{{route('usager.destroy',[Auth::user()->id])}}">
+                             <div class="modal-body">
+                                     @csrf
+                                      @method('DELETE')
+                                    
+                             <p class="text-danger " style="font-weight:bold;"> Voulez-vous vraiment supprimer {{Auth::user()->nom}} ?</p>
+     
+                         </div>
+                         <div class="modal-footer">
+                             <button type="submit"class="btn btn-success">Supprimer</button>
+                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+                         </div>
+                         </form>
+                     </div>
+                    </div>
             @endauth
         </div>
     </header>
     @auth
 
     @endauth
-
+    
     <!-- Header End -->
 
     @yield ('contenue')

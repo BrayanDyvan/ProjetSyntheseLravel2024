@@ -16,6 +16,7 @@
 
     <!-- Css Styles -->
      <link rel="stylesheet"  href="{{ asset('css/border.css') }}">
+     <link rel="stylesheet" href="{{ asset('css/avatar.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/elegant-icons.css') }}" type="text/css">
@@ -32,6 +33,7 @@
         <div class="loader"></div>
     </div>
     <header class="header">
+    <div class="container-fluid d-flex flex-row">
         <div class="container">
             <div class="row">
                 <div class="col-lg-2">
@@ -91,10 +93,92 @@
             </div>
             <div id="mobile-menu-wrap"></div>
         </div>
+        @auth
+                <div>
+
+                    <p class="mt-3 px-3 avatar">
+
+
+
+                        <a href="{{route('showLoginForm')}}" title="{{Auth::user()->nom . Auth::user()->prenom}}"
+                            style="font-style:50px;"><img src="{{asset('img/usagers/' . Auth::user()->avatar)}}"
+                                alt="avatar" style="border-radius:50%;" width="40px"></span></a>
+
+                    <div style="width:320px;height:500px;" class="profil d-none">
+                        <ul class=" bg-dark text-white ">
+                            <li class="px-2">
+                                <div class="d-flex flex-row justify-content-between">
+                                    <div>   PL<i class="fa fa-gamepad fa-21" aria-hidden="true"></i><span
+                                    class="fw-1 fs-5"></span>Y</span></div>
+                                    <div class="py-1"><a href="{{route('logout')}}" style="color:white;" title="se déconnecter">Deconnexion </a></div>
+                                </div>
+                            </li>
+                            <li class="px-4 mt-1">
+
+                                <a href="{{route('showLoginForm')}}"
+                                    title="{{Auth::user()->nom }}  {{ Auth::user()->prenom}}" style="font-style:50px;"><img
+                                        src="{{asset('img/usagers/' . Auth::user()->avatar)}}" alt="avatar"
+                                        style="border-radius:50%;" width="50px"></span></a> {{ Auth::user()->prenom}} {{Auth::user()->nom }}
+                                
+                            </li>
+                            <li class="mb-1 ms-4 px-2"><u>Identifiants du compte</u> </li>
+                            <li class="text-primary px-2" style="font-size:13px">Matricule: {{ Auth::user()->matricule}}</li>
+                            <li class="text-primary mb-2 px-2" style="font-size:13px"><span class="icon_mail"></span>
+                                {{ Auth::user()->email}}</li>
+                                <ul class="bg-white text-dark">
+
+                                
+                            <li style="border-top: 1px solid white;font-size:12px" class="text-dark px-2">Derniere connexion le </li>
+                            <li class="mb-1 px-2 text-dark" style="font-size:13px">{{$date}} à {{$heure}}</li>
+                            <li class="mb-1 px-2 text-dark">
+                            @if(Auth::check() && in_array(Auth::user()->role, ['professeur','etudiantInfo']))
+                                    <a href="{{route('usager.edit',Auth::user())}}" style="color:green;"
+                                                title="Modifier les informations du compte">Modification</a> ou
+                                  
+                                      <a type="button" class="btn me-3 text-danger" title="Supprimer les informations du compte" data-bs-toggle="modal" data-bs-target="#exampleModal{{Auth::user()->id}}" >
+                                                Suppression </a>du compte
+     
+                              @endif
+         
+                        </li>
+                        <li class="mb-1 px-2 text-dark"><u> <a href="#" class="text-info">Afficher le compte</a> </u></li>
+                                   
+                            <li class=" p-lg-3 " style="background-color: rgb(20, 20, 79);"><a href="{{route('login')}}" style="color:white;font-size:13px;" title="connexion"><i class="fa fa-user-circle-o fa-2x" aria-hidden="true"></i> Se connecter avec un autre compte </a> </li>
+                            </ul>
+                        </ul>
+                    </div>
+
+                    </p>
+                </div>
+                <div class="modal fade " id="exampleModal{{Auth::user()->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                         <div class="modal-dialog modal-dialog-centered">
+                             <div class="modal-content">
+                                 <div class="modal-header">
+                                     <h2 class="modal-title fs-5 text-center" id="exampleModalLabel"><i class="fa fa-exclamation-triangle text-warning" aria-hidden="true"></i>  ATTENTION</h2>
+                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                 </div>
+                                 <form method="POST" action="{{route('usager.destroy',[Auth::user()->id])}}">
+                             <div class="modal-body">
+                                     @csrf
+                                      @method('DELETE')
+                                    
+                             <p class="text-danger " style="font-weight:bold;"> Voulez-vous vraiment supprimer {{Auth::user()->nom}} ?</p>
+     
+                         </div>
+                         <div class="modal-footer">
+                             <button type="submit"class="btn btn-success">Supprimer</button>
+                                 <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fermer</button>
+                         </div>
+                         </form>
+                     </div>
+                    </div>
+            @endauth
+    </div>
+
     </header>
     <!-- Header End -->
       <!-- Normal Breadcrumb Begin -->
-    <section class="normal-breadcrumb set-bg" data-setbg="img/normal-breadcrumb.jpg">
+    <section class="normal-breadcrumb set-bg" data-setbg="{{ asset('img/normal-breadcrumb.jpg')}}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -172,7 +256,7 @@
 
     <script src="{{ asset('https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js') }}"></script>
     <script src="{{ asset('https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js') }}"></script>
-
+    <script src="{{ asset('js/avatar.js') }}"></script>
 </body>
 
 </html>

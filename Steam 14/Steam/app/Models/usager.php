@@ -17,10 +17,7 @@ class usager extends Authenticatable
     public function equipe(){
         return $this->belongsTo(equipe::class);
     }
-    public function etudiant(){
-            return $this->belongsTo(etudiant::class);
-    }
-
+  
     public function professeur(){
         return $this->belongsTo(professeur::class);
     }
